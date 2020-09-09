@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jone.dao.UserMapper" >
+  <resultMap id="BaseResultMap" type="com.jone.model.User" >
+    <id column="sys_id" property="id"/>
+    <result column="user_name" property="userName"/>
+    <result column="real_name" property="realName"/>
+    <result column="password" property="password"/>
+    <result column="sex" property="sex"/>
+    <result column="email" property="email"/>
+    <result column="phone" property="phone"/>
+    <result column="user_status" property="userStatus"/>
+    <result column="note" property="note"/>
+    <result column="order_by" property="orderBy"/>
+    <result column="is_delete" property="isDelete"/>
+    <result column="create_user" property="createUser"/>
+    <result column="create_date" property="createDate"/>
+    <result column="last_user" property="lastUser"/>
+    <result column="last_date" property="lastDate"/>
+  </resultMap>
+
+<!-- 新增 -->
+  <insert id="save" parameterType="com.jone.model.User" >
+    <selectKey keyProperty="id" order="BEFORE" resultType="string">
+      SELECT REPLACE(UUID(),"-","")
+    </selectKey>
+    insert into sys_user (sys_id, user_name, real_name, password, sex,
+      email, phone, user_status, note, order_by, create_date)
+    values (#{id}, #{userName},#{realName}, #{password}, #{sex},
+      #{email}, #{phone}, #{userStatus}, #{note}, #{orderBy}, #{createDate})
+  </insert>
+<!-- 更新 -->
+  <update id="update" parameterType="com.jone.model.User" >
+    update sys_user
+    set
+      user_name = #{userName},
+      real_name = #{realName},
+      sex = #{sex},
+      email = #{email},
+      phone = #{phone},
+      user_status = #{userStatus},
+      note = #{note},
+      order_by = #{orderBy}
+    where sys_id = #{id}
+  </update>
+
+    <!-- 获取详情 -->
+  <select id="findById" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select sys_id, user_name, real_name, password, sex, email, phone, user_status,
+    note, order_by, create_date
+    from sys_user
+    where is_delete = 0
+    and sys_id = #{id}
+  </select>
+<!-- 获取数据集合 -->
+  <select id="findList" resultMap="BaseResultMap" >
+    select sys_id, user_name, real_name, password, sex, email, phone, user_status,
+    note, order_by, create_date
+    from sys_user
+    where is_delete = 0
+    <if test="sql != ''">
+      ${sql}
+    </if>
+  </select>
+
+<!-- 计数 -->
+  <select id="count" resultType="int" parameterType="string">
+    select count(*)
+    from sys_user
+    where is_delete = 0
+    <if test="tmpSql != ''">
+      ${tmpSql}
+    </if>
+  </select>
+
+  <select id="nameUnique" resultType="int">
+    select count(*) from sys_user where is_delete=0 and user_name = #{name}
+    <if test="id != null">
+      and sys_id != #{id}
+    </if>
+  </select>
+</mapper>
