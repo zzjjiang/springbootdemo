@@ -1,11 +1,8 @@
 package com.jone.service;
 
 import com.jone.controller.vo.PageVO;
-import com.jone.controller.vo.UserQueryVO;
 import com.jone.controller.vo.UserVO;
 import com.jone.model.User;
-
-import java.util.List;
 
 public interface UserService {
 

@@ -2,6 +2,7 @@ package com.jone.controller;
 
 import com.jone.controller.vo.AddUserVO;
 import com.jone.controller.vo.PageVO;
+import com.jone.controller.vo.TreeVO;
 import com.jone.controller.vo.UserVO;
 import com.jone.model.User;
 import com.jone.service.UserService;
@@ -21,6 +22,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author zzj
@@ -29,6 +33,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 @Api(tags = "用户测试")
 @Controller
+@RequestMapping("/user")
 public class UserController {
 
     @Autowired
@@ -57,7 +62,7 @@ public class UserController {
         return "-1";
     }
 
-    @RequestMapping("userManger")
+    @GetMapping("userManger")
     public String userManger() {
         return "user/userManager";
     }
@@ -92,7 +97,7 @@ public class UserController {
     }
 
 
-    @RequestMapping("deleteById")
+    @PostMapping("deleteById")
     @ResponseBody
     public String deleteById(String modelId) {
         boolean isDel = userService.deleteById(modelId);
@@ -111,17 +116,18 @@ public class UserController {
         return userService.nameUnique(id, name);
     }
 
-    @RequestMapping("index")
+    @GetMapping("index")
     public String index() {
         return "index";
     }
 
-    @RequestMapping("login")
+    @PostMapping("login")
     @ResponseBody
-    public String login(String username, String password) {
+    public String login(String username, String password, HttpSession session) {
         if (username != null && password != null) {
             User loginUser = userService.login(username, password);
             if (loginUser != null) {
+                session.setAttribute("userInfo",loginUser);
                 return "1";
             } else {
                 // 用户名或密码错误
@@ -129,5 +135,46 @@ public class UserController {
             }
         }
         return "-1";
+    }
+
+    @RequestMapping("loginOut")
+    public String loginOut(HttpSession session) {
+        User user = (User) session.getAttribute("userInfo");
+        if (user != null) {
+            session.invalidate();
+        }
+        return "index";
+    }
+
+    @GetMapping("main")
+    public ModelAndView main(HttpSession session) {
+        ModelAndView mav = new ModelAndView("main");
+        User user = (User) session.getAttribute("userInfo");
+        mav.addObject("obj",user);
+        return mav;
+    }
+
+    @GetMapping("welcome")
+    public ModelAndView welcome(HttpSession session) {
+        ModelAndView mav = new ModelAndView("welcome");
+        User user = (User) session.getAttribute("userInfo");
+        mav.addObject("obj",user);
+        return mav;
+    }
+
+    @GetMapping("leftMenus")
+    @ResponseBody
+    public PageVO<TreeVO> leftMenus() {
+        PageVO<TreeVO> pageVO = new PageVO<>();
+        pageVO.setCode(200);
+        List<TreeVO> menus = new ArrayList<>();
+        TreeVO treeVO = new TreeVO();
+        treeVO.setId("12345678");
+        treeVO.setHref("userManger");
+        treeVO.setTitle("用户管理");
+        treeVO.setIsTab(0);
+        menus.add(treeVO);
+        pageVO.setData(menus);
+        return pageVO;
     }
 }

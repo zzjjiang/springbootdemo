@@ -25,7 +25,7 @@
             var i;
             $.ajax({
                 type: "post",
-                url: "login",
+                url: "/user/login",
                 data: {
                     username: username,
                     password: password
@@ -35,7 +35,7 @@
                 },
                 success: function (result) {
                     if (result == "1") {
-                        window.location.href = 'userManger';
+                        window.location.href = '/user/main';
                     } else if (result == "-2") {
                         layer.msg('用户名或密码错误', {icon: 5, time: 1000});
                     } else {

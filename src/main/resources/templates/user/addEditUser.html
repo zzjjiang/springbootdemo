@@ -82,7 +82,7 @@
         //用于编辑的时候,下拉框|单选框|复选框 回显
         var obj = [[${obj}]];
         console.log(obj);
-        if (obj != "") {
+        if (obj != null) {
             form.val('fm', {
                 "sex": obj.sex,
                 "userStatus" : obj.userStatus
