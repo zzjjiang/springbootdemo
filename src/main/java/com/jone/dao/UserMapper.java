@@ -1,5 +1,6 @@
 package com.jone.dao;
 
+import com.jone.controller.vo.Page;
 import com.jone.model.User;
 import org.apache.ibatis.annotations.Param;
 
@@ -11,7 +12,7 @@ public interface UserMapper {
 
     public int update(User t);
 
-    public List<User> findList(String sql);
+    public List<User> findList(Page page);
 
     public int count(@Param("tmpSql") String tmpSql);
 
@@ -19,4 +20,7 @@ public interface UserMapper {
 
     public int nameUnique(@Param("id") String id, @Param("name") String name);
 
+    public User login(String userName, String password);
+
+    public int deleteById(@Param("id") String modelId);
 }

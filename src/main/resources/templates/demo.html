@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+    <title>test</title>
+</head>
+<body>
+    <div>
+        路径引用以及页面跳转 ---@{}  <span style="color: red">花括号中不需要引号</span>
+<!--    <script type="text/javascript" th:src="@{/js/main.js}"></script>
+        <a th:href="@{/show}">访问controller方法</a>
+        <a th:href="@{/static_index.html}">访问静态页面</a>-->
+    </div>
+
+    <span>单个属性访问</span>
+    <h1 th:text="${msg}"></h1>
+
+    <span>对象属性访问 访问形式1</span>
+    <div>
+        <h1 th:text="${user.getUserName()}"></h1>
+        <h1 th:text="${user.getEmail()}"></h1>
+        <h1 th:text="${user.createDate}"></h1>
+    </div>
+
+    <span>对象属性访问 访问形式2</span>
+    <div th:object="${user}">
+        <h1 th:text="*{userName}"></h1>
+        <h1 th:text="*{email}"></h1>
+        <h1 th:text="*{createDate}"></h1>
+    </div>
+
+    <span>内置对象session</span>
+    <h1 th:text="${#session.getAttribute('demo')}"></h1>
+
+    <div>
+        <span>字符串字面量(记得单引号)</span>
+        <h1 th:text="'I AM J'">HA</h1>
+        <span>字符串字面量拼接</span>
+        <h1 th:text="|I AM J phone is ${user.phone}|">HA</h1>
+        <span>数字字面量</span>
+        <h1 th:text="1+2">HA</h1>
+    </div>
+
+
+    <div>
+        <span>集合数据访问</span>
+        <table>
+            <tr th:each="user,stat : ${users}">
+                <td th:text="${stat.index}"></td>
+                <td th:text="${user.userName}"></td>
+                <td th:text="${user.phone}"></td>
+                <td th:text="${user.createDate}"></td>
+            </tr>
+        </table>
+    </div>
+
+    <div>
+        <span>逻辑运算</span>
+        <div>
+            <span>IF逻辑运算--如果表达式的值为true，则标签会渲染到页面，否则不经行渲染</span>
+            <h1 th:if="${user.sex} == 1">男</h1>
+        </div>
+        <div>
+            <span>SWITCH逻辑运算</span>
+            <div th:switch="${user.sex}">
+                <p th:case="1">用户是管理员</p>
+                <p th:case="2">用户是经理</p>
+                <p th:case="*">用户是别的玩意</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

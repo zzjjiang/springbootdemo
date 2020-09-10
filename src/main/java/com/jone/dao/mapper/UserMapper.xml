@@ -13,10 +13,7 @@
     <result column="note" property="note"/>
     <result column="order_by" property="orderBy"/>
     <result column="is_delete" property="isDelete"/>
-    <result column="create_user" property="createUser"/>
     <result column="create_date" property="createDate"/>
-    <result column="last_user" property="lastUser"/>
-    <result column="last_date" property="lastDate"/>
   </resultMap>
 
 <!-- 新增 -->
@@ -52,15 +49,18 @@
     where is_delete = 0
     and sys_id = #{id}
   </select>
-<!-- 获取数据集合 -->
-  <select id="findList" resultMap="BaseResultMap" >
-    select sys_id, user_name, real_name, password, sex, email, phone, user_status,
-    note, order_by, create_date
+
+  <!-- 分页 -->
+  <select id="findList" resultMap="BaseResultMap" parameterType="com.jone.controller.vo.Page">
+    select sys_id, user_name, real_name, password, sex, email,
+    phone, user_status,note, order_by, create_date
     from sys_user
     where is_delete = 0
     <if test="sql != ''">
       ${sql}
     </if>
+    order by order_by desc
+    limit #{page},#{pageSize}
   </select>
 
 <!-- 计数 -->
@@ -79,4 +79,21 @@
       and sys_id != #{id}
     </if>
   </select>
+
+  <select id="login" resultMap="BaseResultMap">
+      select sys_id, user_name, real_name, password, sex, email,
+      phone, user_status
+      from sys_user
+      where is_delete = 0
+      and user_status = 0
+      and user_name = #{userName}
+      and password = #{password}
+  </select>
+
+  <delete id="deleteById">
+    update sys_user
+		set is_delete=1
+		where is_delete = 0
+        and sys_id=#{id}
+  </delete>
 </mapper>

@@ -43,4 +43,7 @@ public class UserVO {
 
     @ApiModelProperty("用户状态 用户状态(0启动1锁定2停用)")
     private Integer userStatus;
+
+    @ApiModelProperty("排序")
+    private Integer orderBy;
 }

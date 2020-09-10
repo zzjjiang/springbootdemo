@@ -1,0 +1,111 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <link rel="stylesheet" href="/js/plugins/layui/css/layui.css">
+</head>
+<body>
+<form id="form1" class="layui-form" lay-filter="fm">
+    <input type="hidden" id="id" name=id th:value="${obj?.id}"/>
+    <div class="layui-form-item">
+        <label class="layui-form-label">用户名:</label>
+        <div class="layui-input-inline">
+            <input type="text" name="userName" id="userName" class="layui-input"
+                   lay-verify="required" th:value="${obj?.userName}">
+        </div>
+        <label class="layui-form-label">真实姓名:</label>
+        <div class="layui-input-inline">
+            <input type="text" name="realName" id="realName" class="layui-input"
+                   lay-verify="required" th:value="${obj?.realName }">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">邮箱:</label>
+        <div class="layui-input-inline">
+            <input type="text" name="email" id="email" class="layui-input"
+                   lay-verify="required|email" th:value="${obj?.email }">
+        </div>
+        <label class="layui-form-label">手机号:</label>
+        <div class="layui-input-inline">
+            <input type="text" name="phone" id="phone" class="layui-input"
+                   lay-verify="required|phone" th:value="${obj?.phone }">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">性别:</label>
+        <div class="layui-input-inline">
+            <select id="sex" name="sex" lay-verify="required">
+                <option value="0">女</option>
+                <option value="1">男</option>
+            </select>
+        </div>
+        <label class="layui-form-label">用户状态:</label>
+        <div class="layui-input-inline">
+            <select id="userStatus" name="userStatus" lay-verify="required">
+                <option value="0">可用</option>
+                <option value="1">禁用</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">排序:</label>
+        <div class="layui-input-inline">
+            <input type="number" name="orderBy" id="orderBy" class="layui-input"
+                   lay-verify="required" th:value="${obj?.orderBy }">
+        </div>
+        <label class="layui-form-label">密码:</label>
+        <div class="layui-input-inline">
+            <input type="text" name="password" id="password" class="layui-input"
+                   lay-verify="required" th:value="${obj?.password }">
+        </div>
+    </div>
+    <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label">备注:</label>
+        <div class="layui-input-block">
+            <textarea placeholder="请输入.." class="layui-textarea" id="note" name="note" th:text="${obj?.note }"></textarea>
+        </div>
+    </div>
+    <button style="display: none;" id="save" lay-submit lay-filter="save"></button>
+</form>
+<script type="text/javascript" src="/js/plugins/layui/layui.js"></script>
+<script type="text/javascript" src="/js/util/layuiUtil.js"></script>
+<!--此处必须内联  将Thymeleaf表达式的输出添加到JavaScript块中。-->
+<script th:inline="javascript">
+    layui.use(['jquery', 'form', 'layer', 'laydate'], function () {
+        var $ = layui.jquery,
+            layer = layui.layer,
+            form = layui.form;
+
+        //用于编辑的时候,下拉框|单选框|复选框 回显
+        var obj = [[${obj}]];
+        console.log(obj);
+        if (obj != "") {
+            form.val('fm', {
+                "sex": obj.sex,
+                "userStatus" : obj.userStatus
+            });
+            //如果你的HTML是动态生成的，自动渲染就会失效
+            //因此你需要在相应的地方，执行下述方法来进行渲染
+            form.render();
+        }
+
+        var grid;
+        var pstUrl;
+        window.childSave = function (grid2,pstUrl2) {
+            grid = grid2;
+            pstUrl = pstUrl2;
+            $("#save").click();
+        };
+        //表单提交
+        form.on("submit(save)", function (data) {
+            var formData = data.field;
+            save(pstUrl, formData, $, grid);
+            return false;
+        });
+    });
+</script>
+</body>
+</html>

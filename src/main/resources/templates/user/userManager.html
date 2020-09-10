@@ -1,0 +1,36 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <link rel="stylesheet" href="/js/plugins/layui/css/layui.css">
+    <title>用户管理</title>
+</head>
+<body>
+    <blockquote class="layui-elem-quote">
+        <form class="layui-form">
+            <div class="layui-inline">
+                <div class="layui-input-inline">
+                    <input type="text" id="keyName" name="keyName" placeholder="用户名称|真实姓名"
+                           class="layui-input search_input ">
+                </div>
+                <a style="margin-left: 10px" class="layui-btn search_btn" lay-submit data-type="search"
+                   lay-filter="search" id="search">查询</a>
+            </div>
+        </form>
+    </blockquote>
+
+<table id="myTable" lay-filter="myTable"></table>
+<script type="text/html" id="myToolbar">
+    <div class="layui-btn-container">
+            <button class="layui-btn" lay-event="add">添加</button>
+            <button class="layui-btn" lay-event="edit">编辑</button>
+            <button class="layui-btn layui-btn-danger" lay-event="del">删除</button>
+    </div>
+</script>
+<script type="text/javascript" src="/js/plugins/layui/layui.js"></script>
+<script type="text/javascript" src="/js/util/layuiUtil.js"></script>
+<script type="text/javascript" src="/js/user/userManager.js"></script>
+</body>
+
+</html>

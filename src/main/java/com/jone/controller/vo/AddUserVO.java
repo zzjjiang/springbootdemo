@@ -13,6 +13,9 @@ import lombok.Data;
 @ApiModel("新增用户")
 public class AddUserVO {
 
+    @ApiModelProperty("用户ID")
+    private String id;
+
     @ApiModelProperty("用户名")
     private String userName;
 
@@ -34,9 +37,9 @@ public class AddUserVO {
     @ApiModelProperty("用户状态 用户状态(0启动1锁定2停用)")
     private Integer userStatus;
 
+    @ApiModelProperty("排序")
+    private Integer orderBy;
+
     @ApiModelProperty("说明")
     private String note;
-
-    @ApiModelProperty("创建时间")
-    private String createDate;
 }
