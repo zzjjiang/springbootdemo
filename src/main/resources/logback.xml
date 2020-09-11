@@ -1,12 +1,12 @@
 <!-- Logback configuration. See http://logback.qos.ch/manual/index.html -->
 <configuration scan="true" scanPeriod="10 seconds">
-    <include resource="org/springframework/boot/logging/logback/base.xml"/>
-
     <!--
 	    name:自取即可,
 	    class:加载指定类(ch.qos.logback.core.ConsoleAppender类会将日志输出到>>>控制台),
 		patter:指定输出的日志格式
 	-->
+    <property name="LOG_PATH" value="D:/logback/logs"/>
+
     <appender name="consoleAppender"
               class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
@@ -58,5 +58,4 @@
     </root>
 
 <!--    <logger name="org.springframework.boot" level="DEBUG"/>-->
-
 </configuration>

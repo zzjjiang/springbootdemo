@@ -4,6 +4,7 @@ import com.jone.controller.vo.AddUserVO;
 import com.jone.controller.vo.PageVO;
 import com.jone.controller.vo.TreeVO;
 import com.jone.controller.vo.UserVO;
+import com.jone.exception.BizException;
 import com.jone.model.User;
 import com.jone.service.UserService;
 import com.jone.util.FastUtils;
@@ -100,6 +101,9 @@ public class UserController {
     @PostMapping("deleteById")
     @ResponseBody
     public String deleteById(String modelId) {
+        if(StringUtils.isEmpty(modelId)){
+            throw new BizException("modelId 不能为空");
+        }
         boolean isDel = userService.deleteById(modelId);
         if(isDel){
             return "1";
@@ -137,7 +141,7 @@ public class UserController {
         return "-1";
     }
 
-    @RequestMapping("loginOut")
+    @GetMapping("loginOut")
     public String loginOut(HttpSession session) {
         User user = (User) session.getAttribute("userInfo");
         if (user != null) {
@@ -176,5 +180,14 @@ public class UserController {
         menus.add(treeVO);
         pageVO.setData(menus);
         return pageVO;
+    }
+
+    @GetMapping("testException")
+    @ResponseBody
+    public String testException(String modelId){
+        if(StringUtils.isEmpty(modelId)){
+            throw new BizException("modelId 不能为空");
+        }
+        return "1";
     }
 }
