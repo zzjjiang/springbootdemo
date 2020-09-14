@@ -176,6 +176,7 @@ public class UserController {
         treeVO.setId("12345678");
         treeVO.setHref("userManger");
         treeVO.setTitle("用户管理");
+        treeVO.setIcon("&#xe770;");
         treeVO.setIsTab(0);
         menus.add(treeVO);
         pageVO.setData(menus);

@@ -47,7 +47,6 @@
 					return html;
 				}
 			}
-			,{field:'createDate', title: '创建时间',align: 'center'}
 			,{field:'note', title: '备注',align: 'center'}
 		]]
 		,page: true //开启分页
